@@ -1,0 +1,97 @@
+<style>
+  #get-address {
+    margin-top: 2vh;
+  }
+  .shkeeper-instructions {
+    margin: 2vw 0vw;
+  }
+</style>
+
+{# shkeeper instructions block #}
+{% if shkeeper_instructions %}
+  <div class="row shkeeper-instructions">
+    <h4>{{ entry_instructions }}</h4>
+    <div class="well well-sm">
+      <p>{{ shkeeper_instructions }}</p>
+    </div>
+  </div>
+{% endif %}
+
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="payment-container">
+        <h4><strong>{{ entry_header }}</strong></h4>
+
+        {# currency dropdown #}
+        <div class="crypto-icons">
+          <select id="shkeeper-currency" name="shkeeper-currency">
+            {% for currency in shkeeper %}
+              <option value="{{ currency.name }}">{{ currency.display_name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <input type="button" value="{{ entry_get_address }}" id="get-address" class="btn btn-danger" />
+      </div>
+    </div>
+
+    {# QRcode & payment info block #}
+    <div class="col-sm-6">
+        <p id="wallet-address"></p>
+        <p id="amount"></p>
+        <div id="qrcode"></div>
+    </div>
+  </div>
+
+{# main button in confirm opencart order #}
+<div class="buttons">
+  <div class="pull-right">
+    <input type="button" value="{{ button_confirm }}" id="button-confirm" data-loading-text="{{ text_loading }}" class="btn btn-primary" disabled />
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script type="text/javascript">
+  $('#button-confirm').bind('click', function() {
+    location.href = "{{ redirect }}";
+  });
+
+  $('#get-address').on('click', function () {
+
+    {# reset current data #}
+    $('#wallet-address').text('');
+    $('#amount').text('');
+    $('#qrcode').text('');
+    $.ajax({
+      url: 'index.php?route=extension/payment/shkeeper/getAddress',
+      type: 'post',
+      data: 'currency=' + $('#shkeeper-currency').val(),
+      beforeSend: function() {
+        $('#get-address').button('loading');
+      },
+      complete: function() {
+        $('#get-address').button('reset');
+      },
+      success: function(json) {
+        const response = json.response;
+        
+        $('#wallet-address').append('<strong>{{ entry_address }}</strong> ' + response.wallet);
+        $('#amount').append('<strong>{{ entry_amount }}</strong> ' + response.amount + ' ' + response.display_name);
+
+        new QRCode(document.getElementById("qrcode"), {
+            text: response.wallet + '?amount=' + response.amount,
+            width: 128,
+            height: 128,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H
+        });
+
+        $('#button-confirm').removeAttr('disabled');
+      },
+      error: function(xhr, ajaxOptions, thrownError) {
+        alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+      }
+    });
+  })
+
+</script>
