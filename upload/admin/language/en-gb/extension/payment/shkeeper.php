@@ -21,4 +21,3 @@ $_['entry_status']			            = 'Status';
 $_['error_permission']		  = 'Warning: You do not have permission to modify SHKeeper!';
 $_['error_apiKey']			  = 'API-Key Required!';
 $_['error_apiURL']			  = 'API URL Required!';
-$_['error_apiURL']			  = 'Sort order must be a digit number!';
