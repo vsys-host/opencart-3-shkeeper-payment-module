@@ -31,3 +31,8 @@ After successful installation you should configure plugin.
 3. Once done save the changes.
 
  Detailed common instruction can be found on official OpenCart [site](https://docs.opencart.com/en-gb/extension/payment/)
+
+![photo_2024-08-12_10-38-54](https://github.com/user-attachments/assets/a51f062a-be85-4844-b271-3957e6187eec)
+![photo_2024-08-12_10-39-02](https://github.com/user-attachments/assets/321ee08a-768d-4bf2-b47a-b25a69871ab2)
+![photo_2024-08-12_10-39-08](https://github.com/user-attachments/assets/38fea15e-f9e8-41e9-93bb-bb70d602b206)
+![photo_2024-08-12_10-39-12](https://github.com/user-attachments/assets/4835cdeb-a449-4d6e-9e90-fa7b7c67bb29)
